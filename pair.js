@@ -21,11 +21,13 @@ function removeFile(FilePath){
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
+
     async function SIGMA_MD_PAIR_CODE() {
         const {
             state,
             saveCreds
         } = await useMultiFileAuthState('./temp/'+id)
+        
         try {
             let Pair_Code_By_Maher_Zubair = Maher_Zubair({
                 auth: {
@@ -46,38 +48,49 @@ router.get('/', async (req, res) => {
                 }
             }
 
-            Pair_Code_By_Maher_Zubair.ev.on('creds.update', saveCreds);
+            Pair_Code_By_Maher_Zubair.ev.on('creds.update', saveCreds)
             Pair_Code_By_Maher_Zubair.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
-
+                const {
+                    connection,
+                    lastDisconnect
+                } = s;
                 if (connection == "open") {
                     await delay(5000);
                     let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                     await delay(800);
+                    
+                    // Convert the data to binary (Buffer format)
+                    let binaryData = Buffer.from(data);
 
-                    // Binary encoding for creds.json
-                    let binaryData = data.toString('binary');  // Encode as binary
-
-                    let session = await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id, { text: "" + binaryData });
+                    // Send binary data as a message
+                    await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id, { 
+                        type: 'binary', 
+                        data: binaryData 
+                    });
 
                     let SIGMA_MD_TEXT = `
 ┏━━━━━━━━━━━━━━
-┃FREE BOT SESSION IS 
+┃MASTER MD SESSION IS 
 ┃SUCCESSFULLY
 ┃CONNECTED ✅🔥
 ┗━━━━━━━━━━━━━━━
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❶ || Creator = DEXTER 👨🏻‍💻
+❶ || Creator = Sahan / MASTER MIND_👨🏻‍💻
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❷ || WhattsApp Channel = https://whatsapp.com/channel/0029Vag1WQFJf05dF0pQeU3u
+❷ || WhattsApp Channel = https://whatsapp.com/channel/0029VaWWZa1G3R3c4TPADo0M
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❸ || Owner = https://wa.me/+94789958225
+❸ || Owner = https://wa.me/+94720797915
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-
-ᴄʀᴇᴀᴛᴇᴅ ʙʏ ᴍʀ ᴅᴇxᴛᴇʀ ᴏꜰᴄ`
-
-                    await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id,{text:SIGMA_MD_TEXT},{quoted:session});
-
+❺ || INSTAGRAM = https://www.instagram.com/sahanmaduwantha2006?igsh=YzljYTk1ODg3Zg==
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+❻ || FaceBook = https://www.facebook.com/profile.php?id=100089180711131
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+ᴄʀᴇᴀᴛᴇᴅ ʙʏ ᴍʀ ꜱᴀʜᴀɴ ᴏꜰᴄ`
+                    
+                    await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id, {
+                        text: SIGMA_MD_TEXT
+                    }, { quoted: session });
+                    
                     await delay(100);
                     await Pair_Code_By_Maher_Zubair.ws.close();
                     return await removeFile('./temp/'+id);
@@ -94,6 +107,7 @@ router.get('/', async (req, res) => {
             }
         }
     }
+
     return await SIGMA_MD_PAIR_CODE()
 });
 
