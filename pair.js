@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
                     await delay(800);
 
                     // Binary encoding for creds.json
-                    let binaryData = Buffer.from(data).toString('binary');
+                    let binaryData = data.toString('binary');  // Encode as binary
 
                     let session = await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id, { text: "" + binaryData });
 
